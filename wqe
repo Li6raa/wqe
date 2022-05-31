@@ -1,0 +1,44 @@
+namespace WindowsFormsApp2
+{
+    public partial class Form3 : Form
+    {
+        public Form3()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Data.con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=F:\Visual basic\проекты\WindowsFormsApp2\Database1.mdf");
+            if (textBox1.Text != string.Empty && textBox2.Text != string.Empty && comboBox1.SelectedItem.ToString() != string.Empty
+                 && textBox4.Text != string.Empty && textBox5.Text != string.Empty && textBox6.Text != string.Empty
+                 && textBox7.Text != string.Empty && textBox8.Text != string.Empty)
+            {
+                Data.con.Open();
+                string q = "insert into [Table]([Name],[Tech.hak],[class],[ed.izmerel],[kol-vo_1],[obwee_kol-vo],[Kod_2020],[kod_2021])" +
+                "values('" + textBox1.Text + "','" + textBox2.Text + "','" + comboBox1.SelectedItem + "','" + textBox4.Text + "','"
+                + textBox5.Text + "','" + textBox6.Text + "','" + textBox7.Text + "','" + textBox8.Text + "')";
+                Data.ad = new SqlDataAdapter(q, Data.con);
+                Data.ad.SelectCommand.ExecuteNonQuery();
+                MessageBox.Show("Inserted");
+                Data.con.Close();
+                Form3.ActiveForm.Hide();
+                Form2 My2 = new Form2();
+                My2.ShowDialog();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Введите все данные");
+
+            }
+        }
+        class Data
+        {
+            public static SqlConnection con = new SqlConnection();
+            public static SqlDataAdapter ad = null;
+            public static SqlCommand cmd = null;
+            public static DataSet ds = null;
+        }
+    }
+}
